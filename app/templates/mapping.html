@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>URL Mapping</title>
+        <style>
+            table,
+            th,
+            td {
+                border: 1px solid black;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>History</h1>
+        <table>
+            <thead>
+                <th>ID</th>
+                <th>Short URL</th>
+                <th>Long URL</th>
+            </thead>
+            <tbody>
+                {% for elem in data %}
+                <tr>
+                    <td>{{elem.id}}</td>
+                    <td><a href="{{ request.url_root }}{{elem.shortened_url}}">{{ request.url_root }}{{elem.shortened_url}}</a></td>
+                    <td><a href="{{elem.long_url}}">{{elem.long_url}}</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a
+            href="{{ url_for('download_mapping') }}"
+            >Download Excel</a
+        >
+    </body>
+</html>
