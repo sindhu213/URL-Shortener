@@ -45,7 +45,8 @@ def mapping():
 @app.route('/download')
 def download_mapping():
     data = URLMapping.query.all()
-    df = pd.DataFrame([(item.id, f"{request.url_root}{item.shortened_url}", item.long_url) for item in data], columns = ["ID", "Shortened URL","LONG URL"])
+    df = pd.DataFrame([(item.id, f"{request.url_root}{item.shortened_url}", item.long_url) for item in data],
+                       columns = ["ID", "Shortened URL","LONG URL"])
 
     excel_file = BytesIO()
     df.to_excel(excel_file, index=False, sheet_name="URLMapping")
