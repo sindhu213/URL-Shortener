@@ -48,7 +48,18 @@ def register():
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
+    if request.method == "POST":
+        username = request.form['username']
+        password = request.form['password']
+        user = User.query.filter_by(username=username).first()
+
+        if user and bcrypt.check_password_hash(user.password, password):
+            return redirect(url_for('index'))
+        else: 
+            flash("Login unsuccessful. Please check your username and password", 'danger')
+
     return render_template("login.html")
+
 
 
 @app.route("/<short_url>")
