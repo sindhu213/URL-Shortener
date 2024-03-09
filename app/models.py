@@ -1,15 +1,16 @@
-from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
+from app import db
 
-db = SQLAlchemy()
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
-    email = db.Column(db.String(40), unique=True, nullable=False)
+    password = db.Column(db.String(40), nullable=False)
     history = db.relationship('URLMapping',backref="user", lazy=True)
 
     def __repr__(self) -> str:
         return f"Username : {self.username}, Email: {self.email}"
+
 
 class URLMapping(db.Model):
     id = db.Column(db.Integer, primary_key=True)
