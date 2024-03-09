@@ -4,12 +4,15 @@ import pandas as pd
 from io import BytesIO
 from models import db, URLMapping, User
 from flask_bcrypt import Bcrypt
+from flask_login import login_user, logout_user, LoginManager
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///site.db"
 app.config["SECRET_KEY"] = "OdbXED9b9InYXa1AMXAW1k2epOYJ3EjD"
 bcrypt = Bcrypt(app)
 db.init_app(app)
+
+login_manager = LoginManager(app)
 
 #Routes
 @app.route('/', methods=["GET", "POST"])
@@ -46,6 +49,11 @@ def register():
     return render_template("register.html")
 
 
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+
 @app.route('/login', methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -54,12 +62,18 @@ def login():
         user = User.query.filter_by(username=username).first()
 
         if user and bcrypt.check_password_hash(user.password, password):
+            login_user(user)
             return redirect(url_for('index'))
         else: 
             flash("Login unsuccessful. Please check your username and password", 'danger')
 
     return render_template("login.html")
 
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
 
 
 @app.route("/<short_url>")

@@ -14,17 +14,18 @@
         {% endif %}
     {% endwith %}  
 
-    <h1>Login</h1>
-    <form method="post" action="{{url_for('login')}}">
-        <label for="username">Enter your username</label>
-        <input type="text" name="username">
-        <br>
-        <label for="password">Enter your password</label>
-        <input type="password" name="password">
-        <br>
-        <button type="submit">Sign in</button>
-    </form>
-
+    <div class="login-container">
+        <h1>Login</h1>
+        <form method="post" action="{{url_for('login')}}">
+            <label for="username">Enter your username</label>
+            <input type="text" name="username">
+            <br>
+            <label for="password">Enter your password</label>
+            <input type="password" name="password">
+            <br>
+            <button type="submit">Sign in</button>
+        </form>
+    </div>
 
 </body>
 </html>

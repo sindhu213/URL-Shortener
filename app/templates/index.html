@@ -7,6 +7,10 @@
 </head>
 <body>
     <h1>URL Shortener</h1>
+    {% if current_user.is_authenticated %}
+        <a href="{{url_for('logout')}}">Logout?</a>
+    {% endif %}
+
     <form method="POST" action="{{url_for('index')}}">
         <input type="text" name="long_url" placeholder="Enter long URL">
         <button type="submit"> Generate Short URL</button>
