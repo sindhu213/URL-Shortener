@@ -1,0 +1,39 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 50px;
+}
+
+h1 {
+    color: #3366cc;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #3366cc;
+    padding: 10px;
+}
+
+a {
+    color: #3366cc;
+    display: block;
+}
+
+button {
+    background-color: #3366cc;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+button a {
+    color: #fff;
+    text-decoration: none;
+}

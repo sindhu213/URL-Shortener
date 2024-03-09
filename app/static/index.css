@@ -1,0 +1,32 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 50px;
+}
+h1 {
+    color: #3366cc;
+}
+a {
+    text-decoration: none;
+    color: #3366cc;
+    margin: 0 10px;
+}
+form {
+    margin-top: 20px;
+}
+input, button {
+    padding: 8px;
+    margin: 5px;
+}
+p {
+    margin-top: 20px;
+}
+
+a {
+    color: #3366cc;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
