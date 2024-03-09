@@ -1,12 +1,14 @@
-from flask import Flask, render_template, redirect, request, send_file
+from flask import Flask, render_template, redirect, request, send_file, flash, url_for
 from utilities import generate_short_url
 import pandas as pd
 from io import BytesIO
 from models import db, URLMapping, User
+from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///site.db"
-
+app.config["SECRET_KEY"] = "OdbXED9b9InYXa1AMXAW1k2epOYJ3EjD"
+bcrypt = Bcrypt(app)
 db.init_app(app)
 
 #Routes
@@ -25,6 +27,28 @@ def index():
             shortened_url = f"{request.url_root}{short_url}"
         return render_template("index.html", shortened_url=shortened_url)
     return render_template("index.html")
+
+
+@app.route('/register', methods=["GET", "POST"])
+def register():
+    if request.method == "POST":
+        username = request.form['username']
+        password = request.form['password']
+
+        hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+        new_user = User(username=username, password=hashed_password)
+        db.session.add(new_user)
+        db.session.commit()
+
+        flash(f"Your account has been created. You can now login!", 'success')
+        return redirect(url_for('login'))
+    
+    return render_template("register.html")
+
+
+@app.route('/login', methods=["GET", "POST"])
+def login():
+    return render_template("login.html")
 
 
 @app.route("/<short_url>")

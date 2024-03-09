@@ -5,7 +5,7 @@ db = SQLAlchemy()
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
-    email = db.Column(db.String(40), unique=True, nullable=False)
+    password = db.Column(db.String(40), nullable=False)
     history = db.relationship('URLMapping',backref="user", lazy=True)
 
     def __repr__(self) -> str:
