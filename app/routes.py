@@ -1,20 +1,12 @@
-from flask import Flask, render_template, redirect, request, send_file, flash, url_for
-from utilities import generate_short_url
+from flask import render_template, redirect, request, send_file, flash, url_for
+from app.utilities import generate_short_url
 import pandas as pd
 from io import BytesIO
-from models import db, URLMapping, User
-from flask_bcrypt import Bcrypt
-from flask_login import login_user, logout_user, LoginManager
+from app.models import db, URLMapping, User
+from flask_login import login_user, logout_user
+from app import app, bcrypt,login_manager
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///site.db"
-app.config["SECRET_KEY"] = "OdbXED9b9InYXa1AMXAW1k2epOYJ3EjD"
-bcrypt = Bcrypt(app)
-db.init_app(app)
 
-login_manager = LoginManager(app)
-
-#Routes
 @app.route('/', methods=["GET", "POST"])
 def index():
     if request.method == "POST":
@@ -101,10 +93,3 @@ def download_mapping():
     df.to_excel(excel_file, index=False, sheet_name="URLMapping")
     excel_file.seek(0)
     return send_file(excel_file, as_attachment=True, download_name='url_mapping.xlsx')
-
-
-if __name__ == "__main__":  
-    with app.app_context():
-        db.drop_all()
-        db.create_all()
-        app.run(debug=True)
