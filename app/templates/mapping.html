@@ -4,13 +4,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>URL Mapping</title>
-        <style>
-            table,
-            th,
-            td {
-                border: 1px solid black;
-            }
-        </style>
+        <link rel="stylesheet" href="{{url_for('static', filename='mapping.css')}}">
     </head>
     <body>
         <h1>History</h1>
@@ -30,9 +24,11 @@
                 {% endfor %}
             </tbody>
         </table>
-        <a
+        <button>
+            <a
             href="{{ url_for('download_mapping') }}"
-            >Download Excel</a
+            >Save the mapping as an Excel file.</a
         >
+        </button> 
     </body>
 </html>
