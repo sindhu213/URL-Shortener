@@ -3,7 +3,7 @@ from app.utilities import generate_short_url
 import pandas as pd
 from io import BytesIO
 from app.models import db, URLMapping, User
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, current_user, login_required
 from app import app, bcrypt,login_manager
 
 
@@ -16,7 +16,7 @@ def index():
             shortened_url = existing_mapping.shortened_url
         else:
             short_url = generate_short_url(10)
-            new_mapping = URLMapping(long_url=long_url, shortened_url=short_url, user_id = 1)
+            new_mapping = URLMapping(long_url=long_url, shortened_url=short_url, user_id = current_user.id)
             db.session.add(new_mapping)
             db.session.commit()
             shortened_url = f"{request.url_root}{short_url}"
@@ -78,8 +78,9 @@ def redirect_to_url(short_url):
 
 
 @app.route('/mapping')
+@login_required
 def mapping():
-    data = URLMapping.query.all()
+    data = URLMapping.query.filter_by(user_id=current_user.id).all()
     return render_template("mapping.html", data=data)
 
 
